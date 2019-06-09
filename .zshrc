@@ -1,0 +1,1 @@
+/home/gregory/dotfiles/.zshrc
