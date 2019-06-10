@@ -1,1 +1,20 @@
-/home/gregory/dotfiles/gitconfig
+[user]
+	name = Kevin Hill
+	email = gkh998@gmail.com
+
+[core]
+    editor = vim
+
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
+    forceSignAnnotated = true
+
+[diff]
+    tool = vimdiff
+
+[alias]
+    commit = commit -S
+    d = difftool
