@@ -1,7 +1,6 @@
 """ Configure vim-plug
 set nocompatible
 filetype off
-"let g:powerline_pycmd = 'py3'
 
 " Begin vim-plug plugin loading
 call plug#begin('~/.local/share/nvim/plugged')
@@ -17,6 +16,10 @@ if executable('git')
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 endif
+
+" Code snippets
+Plug 'SirVer/ultisnips' 
+Plug 'honza/vim-snippets'
 
 " Editor layout
 Plug 'drmingdrmer/vim-tabbar'
@@ -69,6 +72,8 @@ Plug 'noahfrederick/vim-composer'
 Plug 'noahfrederick/vim-laravel'
 Plug 'jwalton512/vim-blade'
 
+
+
 " Languages
 Plug 'rust-lang/rust.vim', {'do': 'rustup component add rls rust-analysis rust-src rustfmt'}
 if executable('cargo')
@@ -105,11 +110,11 @@ if has('nvim')
         Plug 'ncm2/ncm2-tern', {'do': 'npm install'}
     endif
     Plug 'Shougo/echodoc.vim'
+
 endif
 
 " End vim-plug plugin loading
 call plug#end()
-
 
 
 """ General
@@ -125,11 +130,6 @@ set lazyredraw
 " We're using UTF-8 as file/script encoding
 scriptencoding utf-8
 set encoding=utf-8
-
-" Detect file types and specific indents/settings
-filetype on
-filetype indent on
-filetype plugin on
 
 " Enable use of other .vimrc files in working directories
 set exrc
@@ -211,7 +211,7 @@ set scrolloff=8
 set sidescrolloff=16
 set sidescroll=1
 
-" Show commans being typed
+" Show commands being typed
 set showcmd
 
 " Two lines for the command line
@@ -260,7 +260,7 @@ set shiftwidth=4
 set shiftround
 
 " Lines should not be longer than 80 characters
-set textwidth=80
+set textwidth=120
 
 " File specific configurations
 autocmd FileType ansible,json,markdown,yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
@@ -311,10 +311,11 @@ set incsearch
 " Live substitutions
 if has('nvim')
     set inccommand=split
+    let g:vimtex_compiler_progname = 'nvr'
 endif
 
 " Store lots of history
-set history=1000
+set history=10000
 
 " Find recursively in directories
 set path+=**
@@ -507,10 +508,89 @@ set cc=120
 
 " vimtex
 " Set the vimtex PDF viewer to use
+let g:vimtex_enabled=1
 let g:vimtex_view_method="zathura"
 
+" Discourage tex plugin from using `plaintex` filetype
+let g:tex_flavor = "latex"
+
+if exists('ncm2#enable_for_buffer')
+    set completeopt=noinsert,menuone,noselect
+
+    augroup my_cm_setup
+    autocmd!
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+    autocmd Filetype tex call ncm2#register_source({
+            \ 'name' : 'vimtex-cmds',
+            \ 'priority': 8,
+            \ 'complete_length': -1,
+            \ 'scope': ['tex'],
+            \ 'matcher': {'name': 'prefix', 'key': 'word'},
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+    autocmd Filetype tex call ncm2#register_source({
+            \ 'name' : 'vimtex-labels',
+            \ 'priority': 8,
+            \ 'complete_length': -1,
+            \ 'scope': ['tex'],
+            \ 'matcher': {'name': 'combine',
+            \             'matchers': [
+            \               {'name': 'substr', 'key': 'word'},
+            \               {'name': 'substr', 'key': 'menu'},
+            \             ]},
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+    autocmd Filetype tex call ncm2#register_source({
+            \ 'name' : 'vimtex-files',
+            \ 'priority': 8,
+            \ 'complete_length': -1,
+            \ 'scope': ['tex'],
+            \ 'matcher': {'name': 'combine',
+            \             'matchers': [
+            \               {'name': 'abbrfuzzy', 'key': 'word'},
+            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+            \             ]},
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm2#files,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+    autocmd Filetype tex call ncm2#register_source({
+            \ 'name' : 'bibtex',
+            \ 'priority': 8,
+            \ 'complete_length': -1,
+            \ 'scope': ['tex'],
+            \ 'matcher': {'name': 'combine',
+            \             'matchers': [
+            \               {'name': 'prefix', 'key': 'word'},
+            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+            \               {'name': 'abbrfuzzy', 'key': 'menu'},
+            \             ]},
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+    augroup END
+endif
+
+" rustfmt
+" Set autocompile on autosave
 let g:rustfmt_autosave = 1
 
 map <leader>b :! cargo build --tests<CR>
 map <leader>br :! cargo build --release<CR>
+
+
+
+""""
+" Ultisnips
+let g:UltiSnipsSnippetsDir='~/.UltiSnips'
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
 
