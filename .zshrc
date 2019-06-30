@@ -1,7 +1,7 @@
 # Start tmux if not started yet
 # We do this at the beginning so that not all stuff is loaded, because it will be loaded by the shell in tmux
-if [[ -z $TMUX && -n $TMUX_DISABLE ]]; then
-    tmux
+if [[ -z $TMUX && -z $TMUX_DISABLE ]]; then
+    tmux new
     exit
 fi
 
