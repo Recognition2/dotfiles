@@ -1,3 +1,10 @@
+# Start tmux if not started yet
+# We do this at the beginning so that not all stuff is loaded, because it will be loaded by the shell in tmux
+if [[ -z $TMUX && -n $TMUX_DISABLE ]]; then
+    tmux
+    exit
+fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -69,6 +76,11 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Other oh-my-zsh plugins
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
 # User configuration
 
 # Fix ZSH keys; stolen from https://github.com/m-ou-se/config
@@ -104,7 +116,6 @@ source $ZSH/oh-my-zsh.sh
 # [[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
 # [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 # [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
-
 #####
 
 
@@ -128,6 +139,7 @@ prompt_context () {
 	then
 		prompt_segment black default "%(!.%{%F{yellow}%}.)$USER@%m"
     else 
+        # Only display first character of username
         prompt_segment black default "%(!.%{%F{yellow}%}.)${USER:0:1}@%m"
     fi
 }
@@ -142,9 +154,6 @@ prompt_context () {
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-export SSH_KEY_PATH="~/.ssh/id_ed25519"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -152,7 +161,6 @@ export SSH_KEY_PATH="~/.ssh/id_ed25519"
 #
 # Example aliases
 alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
 # Useful functions
@@ -166,43 +174,107 @@ hex() {
     fi
 }
 
-function texbibpdf() {
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-    makeglossaries "${1%%.*}"
-    bibtex "${$1%%.*}"
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-    latexmk -bibtex -silent -e '$pdflatex=q/xelatex -synctex=1 -interaction=nonstopmode/' -pdf %
-}
-
 # Show message of the day
 cat /etc/motd
 
+# wttr.in weather application
 weather () {
-	curl "wttr.in/"$1
+    if [[ -z $1 ]]; then
+        PLACE="Delft"
+    else
+        PLACE="$1"
+    fi
+	curl "wttr.in/$PLACE"
 }
 
-alias wttr="weather"
+dotfiles_setup() {
+    # List of all installed needed for this setup
+    echo "Please turn on Community repository if on Arch"
 
+    PKGLIST="\
+        alacritty{,-terminfo} \
+        vim{,-{spell-{en,nl},airline{,-themes}}} \
+        neovim neovim-remote python-neovim \
+        mosh \
+        rustup \
+        zsh-syntax-highlighting zsh-autosuggestions \
+        firefox powertop \
+        exa ripgrep\
+        xclip \
+        "
+
+    sudo pacman -S --needed $PKGLIST
+
+
+    # Install oh-my-zsh
+    OMZSH_DIR="$HOME/.oh-my-zsh" 
+    [[ -d $OMZSH_DIR ]] || \
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    # Install command-time plugin for oh-my-zsh
+    CMD_TIME_DIR="~/.oh-my-zsh/custom/plugins/command-time"
+    [[ -d $CMD_TIME_DIR ]] || \
+        git clone https://github.com/popstas/zsh-command-time.git CMD_TIME_DIR
+
+    # Setup Rust
+    rustup install stable nightly
+    rustup default stable
+
+    # Install vim-plug
+    VIMPLUG="~/.local/share/nvim/site/autoload/plug.vim"
+    [[ -f $VIMPLUG ]] || \
+        curl -fLo $VIMPLUG --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+    # Setup Plug and install plugins
+    nvim +PlugInstall +PlugUpgrade +PlugUpdate +qa!
+}
+
+
+# Upgrade system and all relevant plugins / packages / applications / things
 upgrade() {
-	vim 
+    # Cache sudo password, such that `pacman` and `aurget` don't ask for one
+    # Which may go unnoticed
+    sudo true
+
+    # Export dconf settings to a backup
+    DCONF_FILE='.dconf.org.dump'
+    mv $DCONF_FILE{,-.bak} >/dev/null 2>&1
+    dconf dump /org/ > $DCONF_FILE
+
+
+    # Check whether packages are actually installed
+    #
+
+
+    echo 'Updating vim Plug plugin and Plugged packages'
+    nvim +PlugUpgrade +PlugUpdate +qa!
+
+    echo 'Updating oh-my-zsh'
+    upgrade_oh_my_zsh
+
+    echo 'Upgrading system packages'
+    sudo pacman -Syu
+
+    echo 'Upgrading foreign system packages'
+    aurget -Syu firefox-nightly
 }
 
 
 # Create dir and cd to it
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
-# Eval useful things
+# Keychain for caching (gpg and) ssh keys
 eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
 
 # Wegwezen met je stomme beep
 setterm -blength 0 >/dev/null 2>&1
 
+# Command-line fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-########################################################################
-# Path meuk && Exports
+############################
+# Exports
+############################
 
 export GOPATH=~/go
 export GOBIN=$GOPATH/bin
@@ -210,7 +282,24 @@ export PATH=~/.npm-global/bin:~/.cargo/bin:$GOBIN:~/opt/bin:/opt/xilinx/Vivado/2
 
 export EDITOR=nvim
 
-# Handy aliases
+# LEGACY: May be redundant.
+export MOZILLA_FIVE_HOME=/usr/lib/mozilla
+export LD_LIBRARY_PATH=${MOZILLA_FIVE_HOME}:${LD_LIBRARY_PATH}
+
+# License file for Xilinx proprietary toolchain
+export XILINXD_LICENSE_FILE=/home/gregory/Downloads/Xilinx.lic
+
+# ESP IDF development toolchain
+export IDF_PATH=~/esp/esp-idf
+
+# ssh key
+export SSH_KEY_PATH="~/.ssh/id_ed25519"
+
+
+
+############################
+## Aliases ##
+############################
 alias rpi='ssh gregory@192.168.2.42' 
 alias chk='ping -c3 -i0.2 1.1' 
 alias vpsander='ssh kevin@vps.inthout.eu'
@@ -220,6 +309,7 @@ alias force_max_brightness='cat /sys/class/backlight/intel_backlight/max_brightn
 alias batcap='cat /sys/class/power_supply/BAT0/capacity'
 alias firefox='firefox-nightly'
 alias ptop='sudo powertop' # Needs sudo rights
+alias wttr="weather"
 
 # CPU frequency, only work on ZBook (I hope)
 alias savepower="sudo cpupower frequency-set -u 2GHz"
@@ -240,24 +330,18 @@ alias gti="git"
 alias mn="man"
 alias clc="clear"
 
-alias sudo="sudo " 
 # If the end of an alias is a space, try to resolve next word as well as an alias
+alias sudo="sudo " 
 
+# For my dotfiles repo
 alias dotgit='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+# Cargo stuff
 alias b="cargo build"
 alias bb="cargo build --release"
 alias r="cargo run"
 alias rr="cargo run --release"
 
-# ESP IDF development toolchain
-export IDF_PATH=~/esp/esp-idf
-
+# gheghe
 alias pieton='/usr/bin/env python3'
 
-export MOZILLA_FIVE_HOME=/usr/lib/mozilla
-export LD_LIBRARY_PATH=${MOZILLA_FIVE_HOME}:${LD_LIBRARY_PATH}
-export XILINXD_LICENSE_FILE=/home/gregory/Downloads/Xilinx.lic
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
