@@ -1,9 +1,9 @@
 # Start tmux if not started yet
 # We do this at the beginning so that not all stuff is loaded, because it will be loaded by the shell in tmux
-if [[ -z $TMUX && -z $TMUX_DISABLE ]]; then
-    tmux new
-    exit
-fi
+#if [[ -z $TMUX && -z $TMUX_DISABLE ]]; then
+    # tmux new
+    # exit
+# fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -192,33 +192,44 @@ dotfiles_setup() {
     echo "Please turn on Community repository if on Arch"
 
     PKGLIST="\
-        alacritty{,-terminfo} \
-        vim{,-{spell-{en,nl},airline{,-themes}}} \
-        neovim neovim-remote python-neovim \
+        alacritty alacritty-terminfo \
+        vim vim-spell-en vim-spell-nl vim-airline vim-airline-themes \
+        neovim python-neovim \
         mosh \
         rustup \
         zsh-syntax-highlighting zsh-autosuggestions \
         firefox powertop \
         exa ripgrep\
         xclip \
+        zathura zathura-pdf-mupdf zathura-ps xdotool \
         "
 
-    sudo pacman -S --needed $PKGLIST
+    sudo pacman -S --needed `echo $PKGLIST` 
 
 
     # Install oh-my-zsh
+    echo "Installing oh-my-zsh"
     OMZSH_DIR="$HOME/.oh-my-zsh" 
     [[ -d $OMZSH_DIR ]] || \
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+    echo "Installing plugins for oh-my-zsh.."
     # Install command-time plugin for oh-my-zsh
     CMD_TIME_DIR="~/.oh-my-zsh/custom/plugins/command-time"
     [[ -d $CMD_TIME_DIR ]] || \
-        git clone https://github.com/popstas/zsh-command-time.git CMD_TIME_DIR
+        git clone https://github.com/popstas/zsh-command-time.git $CMD_TIME_DIR
 
     # Setup Rust
+    echo 'Installing rust stable, nightly'
     rustup install stable nightly
     rustup default stable
+    
+    echo 'Installing cargo-update'
+    cargo install cargo-update clippy
+    
+    echo 'Generating completions'
+    mkdir -p ~/.zfunc
+    rustup completions zsh cargo > ~/.zfunc/_cargo
 
     # Install vim-plug
     VIMPLUG="~/.local/share/nvim/site/autoload/plug.vim"
@@ -245,12 +256,18 @@ upgrade() {
     # Check whether packages are actually installed
     #
 
+    echo 'Updating rust'
+    rustup update >/dev/null 2>/dev/null
+
+    echo 'Recompiling all rust binaries'
+    cargo install-update -a >/dev/null 2>/dev/null
 
     echo 'Updating vim Plug plugin and Plugged packages'
-    nvim +PlugUpgrade +PlugUpdate +qa!
+    nvim +PlugUpgrade +qa! >/dev/null 2>/dev/null
+    nvim +PlugUpdate +qa! >/dev/null 2>/dev/null
 
     echo 'Updating oh-my-zsh'
-    upgrade_oh_my_zsh
+    upgrade_oh_my_zsh >/dev/null 2>/dev/null
 
     echo 'Upgrading system packages'
     sudo pacman -Syu

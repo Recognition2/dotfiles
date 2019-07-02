@@ -41,6 +41,7 @@ Plug 'FooSoft/vim-argwrap'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'robertbasic/vim-hugo-helper'
 Plug 'mattn/emmet-vim'
 
 " Appearance
@@ -56,31 +57,23 @@ Plug 'RRethy/vim-illuminate'
 " File types
 Plug 'cespare/vim-toml'
 Plug 'maralla/vim-toml-enhance'
-Plug 'dag/vim-fish'
-Plug 'ekalinin/Dockerfile.vim'
+" Plug 'dag/vim-fish'
+" Plug 'ekalinin/Dockerfile.vim'
 Plug 'lervag/vimtex'
 Plug 'plasticboy/vim-markdown'
-Plug 'posva/vim-vue'
-Plug 'tpope/vim-git'
-Plug 'StanAngeloff/php.vim'
+" Plug 'posva/vim-vue'
+" Plug 'tpope/vim-git'
+" Plug 'StanAngeloff/php.vim'
 
-" Laravel related
-" TODO: organize these plugins
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-projectionist'
-Plug 'noahfrederick/vim-composer'
-Plug 'noahfrederick/vim-laravel'
-Plug 'jwalton512/vim-blade'
 
-
+" All language packs, no startup overhead.
+Plug 'sheerun/vim-polyglot'
 
 " Languages
 Plug 'rust-lang/rust.vim', {'do': 'rustup component add rls rust-analysis rust-src rustfmt'}
 if executable('cargo')
     Plug 'racer-rust/vim-racer', {'do': 'cargo +nightly install racer -f'}
-endif
-if executable('php') && executable('composer')
-    Plug 'phpactor/phpactor', {'do': 'composer install', 'for': 'php'}
 endif
 
 " Linting/Completion
@@ -103,12 +96,6 @@ if has('nvim')
         Plug 'ncm2/ncm2-racer'
     endif
     Plug 'ncm2/ncm2-vim'
-    if executable('php') && executable('composer')
-        Plug 'phpactor/ncm2-phpactor'
-    endif
-    if executable('npm')
-        Plug 'ncm2/ncm2-tern', {'do': 'npm install'}
-    endif
     Plug 'Shougo/echodoc.vim'
 
 endif
