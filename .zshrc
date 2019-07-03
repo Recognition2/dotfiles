@@ -196,7 +196,7 @@ dotfiles_setup() {
 
     PKGLIST="\
         alacritty alacritty-terminfo \
-        vim vim-spell-en vim-spell-nl vim-airline vim-airline-themes \
+        vim vim-spell-en vim-spell-nl \
         neovim python-neovim \
         mosh \
         rustup \
