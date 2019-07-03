@@ -55,15 +55,8 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'RRethy/vim-illuminate'
 
 " File types
-Plug 'cespare/vim-toml'
 Plug 'maralla/vim-toml-enhance'
-" Plug 'dag/vim-fish'
-" Plug 'ekalinin/Dockerfile.vim'
 Plug 'lervag/vimtex'
-Plug 'plasticboy/vim-markdown'
-" Plug 'posva/vim-vue'
-" Plug 'tpope/vim-git'
-" Plug 'StanAngeloff/php.vim'
 
 Plug 'tpope/vim-dispatch'
 
@@ -92,11 +85,15 @@ if has('nvim')
     Plug 'ncm2/ncm2-tmux'
     Plug 'ncm2/ncm2-path'
     Plug 'ncm2/ncm2-github'
+    Plug 'ncm2/ncm2-ultisnips'
     if executable('cargo')
         Plug 'ncm2/ncm2-racer'
     endif
     Plug 'ncm2/ncm2-vim'
     Plug 'Shougo/echodoc.vim'
+
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+    set completeopt=noinsert,menuone,noselect
 
 endif
 
@@ -128,7 +125,8 @@ set shell=/bin/bash
 set timeoutlen=500
 set ttimeoutlen=0
 
-
+" I'm using vimtex not Latex-Box, polyglot loads that by default.
+let g:polyglot_disabled = ['latex']
 
 """ Appearance
 " Syntax highlighting
