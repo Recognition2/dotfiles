@@ -59,27 +59,29 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  common-aliases
-  gpg-agent
-#  gradle
-#  python
-  tmux
-  ssh-agent
-  sudo
-  systemd
-  wd
-  archlinux
-  command-time
-  shrink-path  
+   git
+   common-aliases
+   gpg-agent
+ #  gradle
+ #  python
+   tmux
+   ssh-agent
+   sudo
+   systemd
+   wd
+   archlinux
+   command-time
+   shrink-path
+  
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # Other oh-my-zsh plugins
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+ZSH_AUTOSUGGESTIONS="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -f $ZSH_AUTOSUGGESTIONS ]] && source $ZSH_AUTOSUGGESTIONS
+ZSH_SYNTAX_HIGHLIGHTING="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f $ZSH_SYNTAX_HIGHLIGHTING ]] && source $ZSH_SYNTAX_HIGHLIGHTING
 
 # User configuration
 
@@ -119,7 +121,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 #####
 
 
-# export MANPATH="/usr/local/man:$MANPATH"
+export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -152,7 +154,7 @@ prompt_context () {
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -161,6 +163,7 @@ prompt_context () {
 #
 # Example aliases
 alias zshconfig="vim ~/.zshrc"
+alias vimconfig="vim ~/.vimrc"
 #
 
 # Useful functions
@@ -215,7 +218,7 @@ dotfiles_setup() {
 
     echo "Installing plugins for oh-my-zsh.."
     # Install command-time plugin for oh-my-zsh
-    CMD_TIME_DIR="~/.oh-my-zsh/custom/plugins/command-time"
+    CMD_TIME_DIR="$HOME/.oh-my-zsh/custom/plugins/command-time"
     [[ -d $CMD_TIME_DIR ]] || \
         git clone https://github.com/popstas/zsh-command-time.git $CMD_TIME_DIR
 
@@ -225,19 +228,20 @@ dotfiles_setup() {
     rustup default stable
     
     echo 'Installing cargo-update'
-    cargo install cargo-update clippy
+    cargo install cargo-update 
     
     echo 'Generating completions'
     mkdir -p ~/.zfunc
-    rustup completions zsh cargo > ~/.zfunc/_cargo
+    rustup completions zsh cargo > $HOME/.zfunc/_cargo
 
     # Install vim-plug
-    VIMPLUG="~/.local/share/nvim/site/autoload/plug.vim"
+    VIMPLUG="$HOME/.local/share/nvim/site/autoload/plug.vim"
     [[ -f $VIMPLUG ]] || \
         curl -fLo $VIMPLUG --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     # Setup Plug and install plugins
-    nvim +PlugInstall +PlugUpgrade +PlugUpdate +qa!
+    nvim +PlugUpgrade +qa!
+    nvim +PlugInstall +PlugUpdate +qa!
 }
 
 
@@ -248,7 +252,7 @@ upgrade() {
     sudo true
 
     # Export dconf settings to a backup
-    DCONF_FILE='.dconf.org.dump'
+    DCONF_FILE="$HOME/.dconf.org.dump"
     mv $DCONF_FILE{,-.bak} >/dev/null 2>&1
     dconf dump /org/ > $DCONF_FILE
 
@@ -256,18 +260,21 @@ upgrade() {
     # Check whether packages are actually installed
     #
 
+    echo 'Updating rustup'
+    rustup self upgrade-data >/dev/null 2>&1
+
     echo 'Updating rust'
-    rustup update >/dev/null 2>/dev/null
+    rustup update >/dev/null 2>&1
 
     echo 'Recompiling all rust binaries'
-    cargo install-update -a >/dev/null 2>/dev/null
+    cargo install-update -a >/dev/null 2>&1
 
     echo 'Updating vim Plug plugin and Plugged packages'
-    nvim +PlugUpgrade +qa! >/dev/null 2>/dev/null
-    nvim +PlugUpdate +qa! >/dev/null 2>/dev/null
+    nvim +PlugUpgrade +qa! >/dev/null 2>&1
+    nvim +PlugUpdate +qa! >/dev/null 2>&1
 
     echo 'Updating oh-my-zsh'
-    upgrade_oh_my_zsh >/dev/null 2>/dev/null
+    upgrade_oh_my_zsh >/dev/null 2>&1
 
     echo 'Upgrading system packages'
     sudo pacman -Syu
@@ -310,7 +317,7 @@ export XILINXD_LICENSE_FILE=/home/gregory/Downloads/Xilinx.lic
 export IDF_PATH=~/esp/esp-idf
 
 # ssh key
-export SSH_KEY_PATH="~/.ssh/id_ed25519"
+export SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
 
 
 
@@ -319,7 +326,7 @@ export SSH_KEY_PATH="~/.ssh/id_ed25519"
 ############################
 alias rpi='ssh gregory@192.168.2.42' 
 alias chk='ping -c3 -i0.2 1.1' 
-alias vpsander='ssh kevin@vps.inthout.eu'
+alias vpsander='ssh kevin@papegaai.vps.inthout.me'
 alias s='ssh kevinhill.nl -p 22002'
 alias m='ssh kevinh.nl -p 22002'
 alias force_max_brightness='cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness'

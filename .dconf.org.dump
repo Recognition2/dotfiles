@@ -487,12 +487,12 @@ window-height=480
 window-width=1008
 
 [gnome/gedit/plugins]
-active-plugins=['spell', 'time', 'modelines', 'filebrowser', 'docinfo']
+active-plugins=['time', 'spell', 'modelines', 'filebrowser', 'docinfo']
 
 [gnome/gedit/plugins/filebrowser]
 root='file:///'
 tree-view=true
-virtual-root='file:///home/gregory/Documents/Gregorius/Uni/CE/Thesis/Simulation%20Analysis/FakeSim'
+virtual-root='file:///home/gregory/Downloads/Telegram%20Desktop'
 
 [gnome/gedit/preferences/editor]
 auto-indent=false
@@ -504,6 +504,7 @@ insert-spaces=true
 scheme='tango'
 tabs-size=uint32 4
 wrap-last-split-mode='word'
+wrap-mode='word'
 
 [gnome/gedit/preferences/ui]
 show-tabs-mode='auto'
@@ -516,8 +517,14 @@ search-for-entry=['/home/gregory/Documents/Gregorius/Uni/CE/Thesis/Simulation An
 bottom-panel-size=140
 side-panel-active-page='GeditWindowDocumentsPanel'
 side-panel-size=200
-size=(1221, 695)
-state=87040
+size=(1014, 518)
+state=128
+
+[gnome/gnome-screenshot]
+border-effect='none'
+delay=0
+include-border=true
+include-pointer=false
 
 [gnome/gnome-system-monitor]
 cpu-colors=[(uint32 0, '#FF6E00'), (1, '#CB0C29'), (2, '#49A835'), (3, '#2D7DB3'), (4, '#f25915e815e8'), (5, '#f25915e815e8'), (6, '#f25915e815e8'), (7, '#f25915e815e8'), (8, '#f25915e815e8'), (9, '#f25915e815e8'), (10, '#f25915e815e8'), (11, '#f25915e815e8')]
@@ -574,6 +581,10 @@ disable-connected-notifications=true
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
+[gnome/nm-applet/eap/034a2b1a-8c38-45ac-92ba-90192b3c0d86]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
 [gnome/nm-applet/eap/05bb8bb4-282b-4a72-97a6-899b8526f20c]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
@@ -598,11 +609,19 @@ ignore-phase2-ca-cert=false
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
+[gnome/nm-applet/eap/3b8faf85-8439-4d82-8bf3-357454e974df]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
 [gnome/nm-applet/eap/3d719bbe-cc02-43d0-a2ae-596202e51039]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
 [gnome/nm-applet/eap/42d79412-8706-4017-b12d-54cd81c04acd]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[gnome/nm-applet/eap/67a9e116-6ba9-40fe-942c-91c5a4103394]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
@@ -646,11 +665,31 @@ ignore-phase2-ca-cert=false
 ignore-ca-cert=true
 ignore-phase2-ca-cert=false
 
+[gnome/nm-applet/eap/9f925b4d-819a-493e-8ffc-478adaa0ccda]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[gnome/nm-applet/eap/a0d439b7-1549-4f10-bb4c-d473a20d7cd3]
+ignore-ca-cert=true
+ignore-phase2-ca-cert=false
+
+[gnome/nm-applet/eap/b261c96b-ff5a-47a7-83e2-44b7d6c91f5d]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[gnome/nm-applet/eap/bd721cef-1021-4aa6-9e53-eb50f3f0e3e5]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
 [gnome/nm-applet/eap/c953e086-c118-4aee-bf1e-b7a31f9af15a]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
 [gnome/nm-applet/eap/debac214-acd9-4a19-b1de-a590f059b164]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[gnome/nm-applet/eap/e3a75f3f-fde7-412a-86c2-fc9e23b57dbd]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
 
