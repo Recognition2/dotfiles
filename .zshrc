@@ -261,26 +261,26 @@ upgrade() {
     #
 
     echo 'Updating rustup'
-    rustup self upgrade-data >/dev/null 2>&1
-
-    echo 'Updating rust'
-    rustup update >/dev/null 2>&1
-
-    echo 'Recompiling all rust binaries'
-    cargo install-update -a >/dev/null 2>&1
+    rustup self upgrade-data
 
     echo 'Updating vim Plug plugin and Plugged packages'
-    nvim +PlugUpgrade +qa! >/dev/null 2>&1
-    nvim +PlugUpdate +qa! >/dev/null 2>&1
+    nvim +PlugUpgrade +qa! 
+    nvim +PlugUpdate +qa! 
 
     echo 'Updating oh-my-zsh'
-    upgrade_oh_my_zsh >/dev/null 2>&1
+    upgrade_oh_my_zsh 
 
     echo 'Upgrading system packages'
     sudo pacman -Syu
 
     echo 'Upgrading foreign system packages'
     aurget -Syu firefox-nightly
+
+    echo 'Updating rust'
+    rustup update 
+
+    echo 'Recompiling all rust binaries'
+    cargo install-update -a 
 }
 
 
