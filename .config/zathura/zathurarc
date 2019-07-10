@@ -1,7 +1,8 @@
 set selection-clipboard clipboard
 
 set window-title-home-tilde true
-
+set synctex true
+set synctex-editor-command "nvim +%{line} %{input}
 
 
 
