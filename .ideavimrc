@@ -1,1 +1,19 @@
-.vimrc
+" Author: Kevin Hill
+" Date: 2019-07-11
+
+
+" Source original vimrc
+source .vimrc
+
+" Surround plugin
+set surround
+
+" Mult curs plugin
+set multiple-cursors
+
+" Commentary emulated plugin
+set commentary
+
+"Bind \r to reformat file
+:map \r :action ReformatCode<CR>
+

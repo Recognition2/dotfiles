@@ -1,6 +1,7 @@
 """ Configure vim-plug
 set nocompatible
 filetype off
+syntax off
 
 " Begin vim-plug plugin loading
 call plug#begin('~/.local/share/nvim/plugged')
@@ -57,6 +58,7 @@ Plug 'RRethy/vim-illuminate'
 " File types
 Plug 'maralla/vim-toml-enhance'
 Plug 'lervag/vimtex'
+Plug 'andymass/vim-matchup'
 
 Plug 'tpope/vim-dispatch'
 
@@ -441,21 +443,21 @@ cnoreabbrev Gs Gstatus
 let g:fzf_nvim_statusline = 0
 
 " Dragvisuals plugin
-runtime plugin/dragvisuals.vim
-vmap <expr> <LEFT>  DVB_Drag('left')
-vmap <expr> <RIGHT> DVB_Drag('right')
-vmap <expr> <DOWN>  DVB_Drag('down')
-vmap <expr> <UP>    DVB_Drag('up')
-vmap <expr> D       DVB_Duplicate()
+" runtime plugin/dragvisuals.vim
+" vmap <expr> <LEFT>  DVB_Drag('left')
+" vmap <expr> <RIGHT> DVB_Drag('right')
+" vmap <expr> <DOWN>  DVB_Drag('down')
+" vmap <expr> <UP>    DVB_Drag('up')
+" vmap <expr> D       DVB_Duplicate()
 
 " NCM2 if installed
-if exists('ncm2#enable_for_buffer')
-    " Enable NCM2 for all buffers
-    autocmd BufEnter * call ncm2#enable_for_buffer()
+" if exists('ncm2#enable_for_buffer')
+"     " Enable NCM2 for all buffers
+"     autocmd BufEnter * call ncm2#enable_for_buffer()
 
-    " Important tweaks for showing completion popups
-    set completeopt=noinsert,menuone,noselect
-endif
+"     " Important tweaks for showing completion popups
+"     set completeopt=noinsert,menuone,noselect
+" endif
 
 " NERDtree
 " Open NERDtree when run with no arguments
@@ -495,6 +497,7 @@ set cc=120
 " Set the vimtex PDF viewer to use
 let g:vimtex_enabled=1
 let g:vimtex_view_method="zathura"
+let g:vimtex_complete_closing_braces=1
 
 " Discourage tex plugin from using `plaintex` filetype
 let g:tex_flavor = "latex"
@@ -577,5 +580,17 @@ let g:UltiSnipsSnippetsDir='~/.UltiSnips'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+"""
+" Abbreviations
+ab pois Poisson
+
+ab spad \gls{spad}
+ab spads \glspl{spad}
+ab Spad \Gls{spad}
+ab Spads \Glspl{spad}
+
+
 
 

@@ -197,13 +197,14 @@ dotfiles_setup() {
     PKGLIST="\
         alacritty alacritty-terminfo \
         vim vim-spell-en vim-spell-nl \
+        tmux \
         neovim python-neovim \
         mosh \
         rustup \
         zsh-syntax-highlighting zsh-autosuggestions \
         firefox powertop \
-        exa ripgrep\
-        xclip \
+        exa ripgrep \
+        xclip xsel \
         zathura zathura-pdf-mupdf zathura-ps xdotool \
         "
 
@@ -221,6 +222,12 @@ dotfiles_setup() {
     CMD_TIME_DIR="$HOME/.oh-my-zsh/custom/plugins/command-time"
     [[ -d $CMD_TIME_DIR ]] || \
         git clone https://github.com/popstas/zsh-command-time.git $CMD_TIME_DIR
+
+    echo "Installing tmux plugin manager"
+    TMUX_PLUGIN_DIR="$HOME/.tmux/plugins/"
+    [[ -d $TMUX_PLUGIN_DIR ]] || \
+        mkdir -p $TMUX_PLUGIN_DIR && \
+        git clone https://github.com/tmux-plugins/tpm $TMUX_PLUGIN_DIR
 
     # Setup Rust
     echo 'Installing rust stable, nightly'
@@ -270,6 +277,12 @@ upgrade() {
     echo 'Updating oh-my-zsh'
     upgrade_oh_my_zsh 
 
+    echo 'Updating Tmux Plugin Manager'
+    TMUX_PLUGIN_DIR="$HOME/.tmux/plugins/"
+    cd $TMUX_PLUGIN_DIR
+    git pull
+    cd -
+
     echo 'Upgrading system packages'
     sudo pacman -Syu
 
@@ -291,7 +304,7 @@ mkcd() { mkdir -p "$@" && cd "$@"; }
 eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
 
 # Wegwezen met je stomme beep
-setterm -blength 0 >/dev/null 2>&1
+# setterm -blength 0 >/dev/null 2>&1
 
 # Command-line fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
