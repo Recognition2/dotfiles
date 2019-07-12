@@ -5,6 +5,15 @@
     # exit
 # fi
 
+if [[ -n $TMUX ]]; then 
+    TMUX_PLUG_DIR="$HOME/.tmux/plugins"
+    [[ -d $TMUX_PLUG_DIR ]] || \
+        mkdir -p $TMUX_PLUG_DIR && \
+        git clone https://github.com/tmux-plugins/tpm $TMUX_PLUG_DIR/tpm
+
+    echo "Please press <C-b> <C-I> after entering tmux to install plugins"
+fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -80,6 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # Other oh-my-zsh plugins
 ZSH_AUTOSUGGESTIONS="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 [[ -f $ZSH_AUTOSUGGESTIONS ]] && source $ZSH_AUTOSUGGESTIONS
+
 ZSH_SYNTAX_HIGHLIGHTING="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 [[ -f $ZSH_SYNTAX_HIGHLIGHTING ]] && source $ZSH_SYNTAX_HIGHLIGHTING
 
