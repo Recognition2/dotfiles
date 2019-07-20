@@ -5,13 +5,15 @@
     # exit
 # fi
 
-if [[ -z $TMUX ]]; then 
+if [[ -n $TMUX ]]; then 
     TMUX_PLUG_DIR="$HOME/.tmux/plugins"
     [[ -d $TMUX_PLUG_DIR ]] || \
-        mkdir -p $TMUX_PLUG_DIR && \
-        git clone https://github.com/tmux-plugins/tpm $TMUX_PLUG_DIR/tpm
+        (mkdir -p $TMUX_PLUG_DIR && \
+        git clone https://github.com/tmux-plugins/tpm $TMUX_PLUG_DIR/tpm)
 
-    echo "Please press <C-b> <C-I> after entering tmux to install plugins"
+    if [[ $(ls $TMUX_PLUG_DIR | wc -l) -lt 2 ]]; then
+        echo "Please press <C-b> <C-I> after entering tmux to install plugins"
+    fi
 fi
 
 # If you come from bash you might have to change your $PATH.
