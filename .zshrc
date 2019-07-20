@@ -5,7 +5,7 @@
     # exit
 # fi
 
-if [[ -n $TMUX ]]; then 
+if [[ -z $TMUX ]]; then 
     TMUX_PLUG_DIR="$HOME/.tmux/plugins"
     [[ -d $TMUX_PLUG_DIR ]] || \
         mkdir -p $TMUX_PLUG_DIR && \
@@ -288,8 +288,8 @@ upgrade() {
     upgrade_oh_my_zsh 
 
     echo 'Updating Tmux Plugin Manager'
-    TMUX_PLUGIN_DIR="$HOME/.tmux/plugins/"
-    cd $TMUX_PLUGIN_DIR
+    TMUX_PLUGIN_MANAGER_DIR="$HOME/.tmux/plugins/tpm"
+    cd $TMUX_PLUGIN_MANAGER_DIR
     git pull
     cd -
 
