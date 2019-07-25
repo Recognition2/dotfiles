@@ -17,3 +17,4 @@ set commentary
 "Bind \r to reformat file
 :map \r :action ReformatCode<CR>
 
+set clipboard+=ideaput
