@@ -15,10 +15,7 @@ snippet Glspl "Glossary plural" w
 endsnippet
 
 snippet todo "Add todo annotation" w
-\todo{${1}}	${0}
-endsnippet
-snippet todoi "Add inline todo annotation" w
-\todo[inline]{${1}} ${0}
+\todo${1:[${2:inline,color=${3:orange}}]}{${4}} ${0}
 endsnippet
 
 snippet input "Input another file, c-style" w
@@ -36,7 +33,7 @@ endsnippet
 snippet gloss "Add new entry to glossary" w
 \newglossaryentry{${1}}{
 	${2:type=${3:symbol},} 
-	name=${4:${1}},
+	name=${4:$1},
 	description={${5}}
 }
 ${0}
@@ -46,3 +43,6 @@ snippet acr "Add entry to acronyms table" w
 \newacronym{${1}}{${2}}{${3}}
 endsnippet
 
+snippet cref "Insert reference" w
+\cref{${1}} ${0}
+endsnippet

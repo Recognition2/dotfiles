@@ -202,6 +202,11 @@ weather () {
 	curl "wttr.in/$PLACE"
 }
 
+texdoc () {
+    echo "Trying texdoc.net/pkg/$1..."
+    xdg-open "http://texdoc.net/pkg/$1"
+}
+
 dotfiles_setup() {
     # List of all installed needed for this setup
     echo "Please turn on Community repository if on Arch"
@@ -355,7 +360,8 @@ export IDF_PATH=~/esp/esp-idf
 # ssh key
 export SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
 
-
+# RUSTFLAGS
+export RUSTFLAGS='-C target-cpu=native'
 
 ############################
 ## Aliases ##

@@ -93,6 +93,9 @@ if has('nvim')
     Plug 'ncm2/ncm2-path'
     Plug 'ncm2/ncm2-github'
     Plug 'ncm2/ncm2-ultisnips'
+    Plug 'fgrsnau/ncm2-aspell'
+    Plug 'ncm2/ncm2-markdown-subscope'
+    Plug 'ncm2/ncm2-match-highlight'
     if executable('cargo')
         Plug 'ncm2/ncm2-racer'
     endif
@@ -527,7 +530,7 @@ if exists('ncm2#enable_for_buffer')
     autocmd Filetype tex call ncm2#register_source({
             \ 'name' : 'vimtex-labels',
             \ 'priority': 8,
-            \ 'complete_length': -1,
+            \ 'complete_length': -1:
             \ 'scope': ['tex'],
             \ 'matcher': {'name': 'combine',
             \             'matchers': [
