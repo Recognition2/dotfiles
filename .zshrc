@@ -325,9 +325,20 @@ eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
 # Exports
 ############################
 
-export GOPATH=~/go
+export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export PATH=~/.npm-global/bin:~/.cargo/bin:$GOBIN:~/opt/bin:/opt/xilinx/Vivado/2018.2/bin:~/.cabal/bin:~/intelFPGA_lite/18.0/quartus/bin:~/.local/bin:$HOME/esp/xtensa-esp32-elf/bin:$PATH
+export PATH="\
+$HOME/bin:\
+$HOME/.local/bin:\
+$HOME/opt/bin:\
+$HOME/.cargo/bin:\
+$GOBIN:\
+$HOME/.cabal/bin:\
+$HOME/.npm-global/bin:\
+$HOME/intelFPGA_lite/18.0/quartus/bin:\
+$HOME/esp/xtensa-esp32-elf/bin:\
+/opt/xilinx/Vivado/2018.2/bin:\
+$PATH"
 
 export EDITOR=nvim
 

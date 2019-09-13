@@ -1,0 +1,48 @@
+snippet gls "Glossary entry" w
+\gls{${1}} ${0}
+endsnippet
+
+snippet glspl "Glossary plural" w
+\glspl{${1}} ${0}
+endsnippet
+
+snippet Gls "Glossary entry" w
+\Gls{${1}} ${0}
+endsnippet
+
+snippet Glspl "Glossary plural" w
+\Glspl{${1}} ${0}
+endsnippet
+
+snippet todo "Add todo annotation" w
+\todo{${1}}	${0}
+endsnippet
+snippet todoi "Add inline todo annotation" w
+\todo[inline]{${1}} ${0}
+endsnippet
+
+snippet input "Input another file, c-style" w
+\input{${1}} ${0}
+endsnippet
+
+snippet include "Include another file, does clear-page before/after, uses different aux file" w
+\include{${1}} ${0}
+endsnippet
+
+snippet num "Input number" w
+\num{${1}} ${0}
+endsnippet
+
+snippet gloss "Add new entry to glossary" w
+\newglossaryentry{${1}}{
+	${2:type=${3:symbol},} 
+	name=${4:${1}},
+	description={${5}}
+}
+${0}
+endsnippet
+
+snippet acr "Add entry to acronyms table" w
+\newacronym{${1}}{${2}}{${3}}
+endsnippet
+

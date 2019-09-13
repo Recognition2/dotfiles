@@ -2,6 +2,9 @@
 	name = Kevin Hill
 	email = gkh998@gmail.com
 
+[include]
+    path = ~/.gitconfig.local
+
 [core]
     editor = vim
 

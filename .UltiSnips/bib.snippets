@@ -1,0 +1,14 @@
+snippet !note online! "Add online annotation" w
+note="{[Online; accessed `date +%y-%m-%d`]}"
+endsnippet
+
+snippet misc "Add misc bibliography entry" w
+@misc{${1:Entry name},
+	author={${2}},
+	year={${3}},
+	howpublished="\url{${4}}"${5:,
+	${6:note=${7:"[Online; accessed `date +%y-%m-%d`]"}}}}
+}
+
+${0}
+endsnippet

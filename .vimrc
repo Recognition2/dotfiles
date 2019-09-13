@@ -10,6 +10,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'airblade/vim-rooter'
 Plug 'tpope/vim-repeat'
 Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-multiple-cursors'
@@ -69,6 +70,10 @@ Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim', {'do': 'rustup component add rls rust-analysis rust-src rustfmt'}
 if executable('cargo')
     Plug 'racer-rust/vim-racer', {'do': 'cargo +nightly install racer -f'}
+endif
+
+if executable('go')
+    Plug 'fatih/vim-go'
 endif
 
 " Linting/Completion
@@ -140,6 +145,7 @@ if !has('gui_running')
 endif
 
 " Colors
+set termguicolors
 if (match($TERM, "-256color") != -1) && (match($TERM, "screen-256color") == -1)
   silent! set termguicolors
 endif
@@ -575,22 +581,12 @@ map <leader>br :! cargo build --release<CR>
 
 """"
 " Ultisnips
-let g:UltiSnipsSnippetsDir='~/.UltiSnips'
+" let g:UltiSnipsSnippetDirectories=['UltiSnips',$HOME.'/.UltiSnips']
+" Add home directory to runtimepath
+let &runtimepath.=','.$HOME
+let g:UltiSnipsSnippetsDir='.UltiSnips'
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-
-"""
-" Abbreviations
-ab pois Poisson
-
-ab spad \gls{spad}
-ab spads \glspl{spad}
-ab Spad \Gls{spad}
-ab Spads \Glspl{spad}
-
-
-
+let g:UltiSnipsJumpBackwardTrigger="<a-k>"
 
