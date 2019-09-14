@@ -146,7 +146,9 @@ prompt_dir() {
 
 export DEFAULT_USER='gregory' # for a shortened username
 
-arch() {echo "x86_64"}
+arch() {
+    echo "x86_64"
+}
 
 prompt_context () {
 	if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]
