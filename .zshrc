@@ -392,8 +392,10 @@ alias wttr="weather"
 # CPU frequency, only work on ZBook (I hope)
 alias savepower="sudo cpupower frequency-set -u 2GHz"
 alias maxpower="sudo cpupower frequency-set -u 4.1GHz"
-alias ls='exa'
-alias vim='nvim'
+[[ -n $(command -v exa) ]] && \
+    alias ls='exa'
+[[ -n $(command -v vim) ]] && \
+    alias vim='nvim'
 alias das="ssh ihpc1855@fs3.das4.tudelft.nl"
 alias t='$HOME/Documents/Gregorius/Uni/CE/Thesis'
 alias note='$EDITOR $(date +"%Y-%m-%d.txt")'
