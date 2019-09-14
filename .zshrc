@@ -301,13 +301,22 @@ upgrade() {
     cd -
 
     echo 'Upgrading system packages'
-    sudo pacman -Syu
+    if [[ -n $(command -v pacman) ]]; then
+        sudo pacman -Syu
+    fi
+    if [[ -n $(command -v apt) ]]; then
+        sudo apt update && sudo apt full-upgrade
+    fi
 
     echo 'Upgrading foreign system packages'
-    aurget -Syu firefox-nightly
+    if [[ -n $(command -v aurget) ]]; then
+        aurget -Syu firefox-nightly
+    fi
 
     echo 'Updating rust'
-    rustup update 
+    if [[ -n $(command -v rustup) ]]; then
+        rustup update 
+    fi
 
     echo 'Recompiling all rust binaries'
     cargo install-update -a 
@@ -318,7 +327,10 @@ upgrade() {
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
 # Keychain for caching (gpg and) ssh keys
-eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
+if [[ -n $(command -v keychain) ]]
+then
+    eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
+fi
 
 # Wegwezen met je stomme beep
 # setterm -blength 0 >/dev/null 2>&1
@@ -352,10 +364,10 @@ export MOZILLA_FIVE_HOME=/usr/lib/mozilla
 export LD_LIBRARY_PATH=${MOZILLA_FIVE_HOME}:${LD_LIBRARY_PATH}
 
 # License file for Xilinx proprietary toolchain
-export XILINXD_LICENSE_FILE=/home/gregory/Downloads/Xilinx.lic
+export XILINXD_LICENSE_FILE=$HOME/Downloads/Xilinx.lic
 
 # ESP IDF development toolchain
-export IDF_PATH=~/esp/esp-idf
+export IDF_PATH=$HOME/esp/esp-idf
 
 # ssh key
 export SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
@@ -383,8 +395,8 @@ alias maxpower="sudo cpupower frequency-set -u 4.1GHz"
 alias ls='exa'
 alias vim='nvim'
 alias das="ssh ihpc1855@fs3.das4.tudelft.nl"
-alias t='/home/gregory/Documents/Gregorius/Uni/CE/Thesis'
-alias note='vim $(date +"%Y-%m-%d.txt")'
+alias t='$HOME/Documents/Gregorius/Uni/CE/Thesis'
+alias note='$EDITOR $(date +"%Y-%m-%d.txt")'
 
 alias :q="exit"
 alias :wq="exit"
@@ -403,11 +415,16 @@ alias sudo="sudo "
 alias dotgit='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Cargo stuff
-alias b="cargo build"
-alias bb="cargo build --release"
-alias r="cargo run"
-alias rr="cargo run --release"
+if [[ -n $(command -v cargo) ]]
+then
+    alias b="cargo build"
+    alias bb="cargo build --release"
+    alias r="cargo run"
+    alias rr="cargo run --release"
+fi
 
 # gheghe
+if [[ -n $(command -v python3) ]]
+then
 alias pieton='/usr/bin/env python3'
-
+fi
