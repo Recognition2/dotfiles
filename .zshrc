@@ -396,7 +396,7 @@ alias savepower="sudo cpupower frequency-set -u 2GHz"
 alias maxpower="sudo cpupower frequency-set -u 4.1GHz"
 [[ -n $(command -v exa) ]] && \
     alias ls='exa'
-[[ -n $(command -v vim) ]] && \
+[[ -n $(command -v nvim) ]] && \
     alias vim='nvim'
 alias das="ssh ihpc1855@fs3.das4.tudelft.nl"
 alias t='$HOME/Documents/Gregorius/Uni/CE/Thesis'
