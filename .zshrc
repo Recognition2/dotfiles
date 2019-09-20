@@ -281,7 +281,8 @@ upgrade() {
         echo 'Updating vim Plug plugin and Plugged packages'
         nvim +PlugUpgrade +qa! 
         nvim +PlugUpdate +qa! 
-    else if [[ -n $(command -v vim) ]]; then
+    elif [[ -n $(command -v vim) ]]; then
+        echo 'Updating vim Plug plugin and Plugged packages'
         vim +PlugUpgrade +qa! 
         vim +PlugUpdate +qa! 
     fi
@@ -333,8 +334,7 @@ upgrade() {
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
 # Keychain for caching (gpg and) ssh keys
-if [[ -n $(command -v keychain) ]]
-then
+if [[ -n $(command -v keychain) ]]; then
     eval $(keychain --eval  --quiet id_ed25519 --noask --timeout 10)
 fi
 
@@ -365,7 +365,7 @@ $PATH"
 
 if [[ -n $(command -v nvim) ]]; then 
     export EDITOR=nvim
-else if [[ -n $(command -v vim) ]]; then  
+elif [[ -n $(command -v vim) ]]; then  
     export EDITOR=vim
 else
     export EDITOR=vi
@@ -399,8 +399,7 @@ BATCAPFILE='/sys/class/power_supply/BAT0/capacity'
 [[ -f $BATCAPFILE ]] && \
     alias batcap="cat $BATCAPFILE"
 
-[[ -n $(command -v firefox-nightly) ]] && \
-    alias firefox='firefox-nightly'
+[[ -n $(command -v firefox-nightly) ]] && alias firefox='firefox-nightly'
 
 alias ptop='sudo powertop' # Needs sudo rights
 alias wttr="weather"
@@ -408,10 +407,8 @@ alias wttr="weather"
 # CPU frequency, only work on ZBook (I hope)
 alias savepower="sudo cpupower frequency-set -u 2GHz"
 alias maxpower="sudo cpupower frequency-set -u 4.1GHz"
-[[ -n $(command -v exa) ]] && \
-    alias ls='exa'
-[[ -n $(command -v nvim) ]] && \
-    alias vim='nvim'
+[[ -n $(command -v exa) ]] && alias ls='exa'
+[[ -n $(command -v nvim) ]] && alias vim='nvim'
 alias das="ssh ihpc1855@fs3.das4.tudelft.nl"
 alias t='$HOME/Documents/Gregorius/Uni/CE/Thesis'
 alias note='$EDITOR $(date +"%Y-%m-%d.txt")'
@@ -422,8 +419,7 @@ alias :x="exit"
 
 # Typos
 alias sl="ls"
-[[ -n $(command -v git) ]] && \
-    alias gti="git"
+[[ -n $(command -v git) ]] && alias gti="git"
 
 alias mn="man"
 alias clc="clear"
@@ -443,5 +439,7 @@ if [[ -n $(command -v cargo) ]]; then
 fi
 
 # gheghe
-[[ -n $(command -v python3) ]] && \
+if [[ -n $(command -v python3) ]]; then
     alias pieton='/usr/bin/env python3'
+fi
+
