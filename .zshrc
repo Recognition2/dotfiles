@@ -1,10 +1,4 @@
-# Start tmux if not started yet
-# We do this at the beginning so that not all stuff is loaded, because it will be loaded by the shell in tmux
-#if [[ -z $TMUX && -z $TMUX_DISABLE ]]; then
-    # tmux new
-    # exit
-# fi
-
+# Install tmux plugin manager and tmux plugins if not installed yet.
 if [[ -n $TMUX ]]; then 
     TMUX_PLUG_DIR="$HOME/.tmux/plugins"
     [[ -d $TMUX_PLUG_DIR ]] || \
@@ -60,7 +54,7 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -191,8 +185,8 @@ hex() {
     fi
 }
 
-# Show message of the day
-cat /etc/motd
+# Show message of the day (if it exists)
+[[ -f '/etc/motd' ]] && cat /etc/motd
 
 # wttr.in weather application
 weather () {
@@ -266,7 +260,6 @@ dotfiles_setup() {
         curl -fLo $VIMPLUG --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     # Setup Plug and install plugins
-    nvim +PlugUpgrade +qa!
     nvim +PlugInstall +PlugUpdate +qa!
 }
 
@@ -277,51 +270,62 @@ upgrade() {
     # Which may go unnoticed
     sudo true
 
-    # Export dconf settings to a backup
-    DCONF_FILE="$HOME/.dconf.org.dump"
-    mv $DCONF_FILE{,-.bak} >/dev/null 2>&1
-    dconf dump /org/ > $DCONF_FILE
+    if [[ -n $(command -v dconf) ]]; then
+        # Export dconf settings to a backup
+        DCONF_FILE="$HOME/.dconf.org.dump"
+        mv $DCONF_FILE{,-.bak} >/dev/null 2>&1
+        dconf dump /org/ > $DCONF_FILE
+    fi
 
+    if [[ -n $(command -v nvim) ]]; then
+        echo 'Updating vim Plug plugin and Plugged packages'
+        nvim +PlugUpgrade +qa! 
+        nvim +PlugUpdate +qa! 
+    else if [[ -n $(command -v vim) ]]; then
+        vim +PlugUpgrade +qa! 
+        vim +PlugUpdate +qa! 
+    fi
 
-    # Check whether packages are actually installed
-    #
+    if [[ -n $(command -v upgrade_oh_my_zsh) ]]; then 
+        echo 'Updating oh-my-zsh'
+        upgrade_oh_my_zsh 
+    fi
 
-    echo 'Updating rustup'
-    rustup self upgrade-data
+    if [[ -n $TMUX ]]; then
+        echo 'Updating Tmux Plugin Manager'
+        TMUX_PLUGIN_MANAGER_DIR="$HOME/.tmux/plugins/tpm"
+        cd $TMUX_PLUGIN_MANAGER_DIR
+        git pull
+        cd -
+    fi
 
-    echo 'Updating vim Plug plugin and Plugged packages'
-    nvim +PlugUpgrade +qa! 
-    nvim +PlugUpdate +qa! 
-
-    echo 'Updating oh-my-zsh'
-    upgrade_oh_my_zsh 
-
-    echo 'Updating Tmux Plugin Manager'
-    TMUX_PLUGIN_MANAGER_DIR="$HOME/.tmux/plugins/tpm"
-    cd $TMUX_PLUGIN_MANAGER_DIR
-    git pull
-    cd -
-
-    echo 'Upgrading system packages'
     if [[ -n $(command -v pacman) ]]; then
+        echo 'Upgrading system packages'
         sudo pacman -Syu
     fi
+
     if [[ -n $(command -v apt) ]]; then
+        echo 'Upgrading system packages'
         sudo apt update && sudo apt full-upgrade
     fi
 
-    echo 'Upgrading foreign system packages'
-    if [[ -n $(command -v aurget) ]]; then
-        aurget -Syu firefox-nightly
-    fi
-
-    echo 'Updating rust'
     if [[ -n $(command -v rustup) ]]; then
+        echo 'Updating rustup'
+        rustup self upgrade-data
+
+        echo 'Updating rust'
         rustup update 
     fi
 
-    echo 'Recompiling all rust binaries'
-    cargo install-update -a 
+    if [[ -n $(command -v cargo-install-update) ]]; then
+        echo 'Recompiling all rust binaries'
+        cargo install-update -a 
+    fi
+
+    if [[ -n $(command -v aurget) ]]; then
+        echo 'Upgrading foreign system packages'
+        aurget -Syu firefox-nightly
+    fi
 }
 
 
@@ -359,7 +363,13 @@ $HOME/esp/xtensa-esp32-elf/bin:\
 /opt/xilinx/Vivado/2018.2/bin:\
 $PATH"
 
-export EDITOR=nvim
+if [[ -n $(command -v nvim) ]]; then 
+    export EDITOR=nvim
+else if [[ -n $(command -v vim) ]]; then  
+    export EDITOR=vim
+else
+    export EDITOR=vi
+fi
 
 # LEGACY: May be redundant.
 export MOZILLA_FIVE_HOME=/usr/lib/mozilla
@@ -384,10 +394,14 @@ alias rpi='ssh gregory@192.168.2.42'
 alias chk='ping -c3 -i0.2 1.1' 
 alias vpsander='ssh kevin@papegaai.vps.inthout.me'
 alias s='ssh kevinhill.nl -p 22002'
-alias m='ssh kevinh.nl -p 22002'
 alias force_max_brightness='cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness'
-alias batcap='cat /sys/class/power_supply/BAT0/capacity'
-alias firefox='firefox-nightly'
+BATCAPFILE='/sys/class/power_supply/BAT0/capacity'
+[[ -f $BATCAPFILE ]] && \
+    alias batcap="cat $BATCAPFILE"
+
+[[ -n $(command -v firefox-nightly) ]] && \
+    alias firefox='firefox-nightly'
+
 alias ptop='sudo powertop' # Needs sudo rights
 alias wttr="weather"
 
@@ -408,7 +422,9 @@ alias :x="exit"
 
 # Typos
 alias sl="ls"
-alias gti="git"
+[[ -n $(command -v git) ]] && \
+    alias gti="git"
+
 alias mn="man"
 alias clc="clear"
 
@@ -419,8 +435,7 @@ alias sudo="sudo "
 alias dotgit='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Cargo stuff
-if [[ -n $(command -v cargo) ]]
-then
+if [[ -n $(command -v cargo) ]]; then
     alias b="cargo build"
     alias bb="cargo build --release"
     alias r="cargo run"
@@ -428,7 +443,5 @@ then
 fi
 
 # gheghe
-if [[ -n $(command -v python3) ]]
-then
-alias pieton='/usr/bin/env python3'
-fi
+[[ -n $(command -v python3) ]] && \
+    alias pieton='/usr/bin/env python3'
