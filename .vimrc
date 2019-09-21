@@ -96,10 +96,12 @@ if has('nvim')
     Plug 'fgrsnau/ncm2-aspell'
     Plug 'ncm2/ncm2-markdown-subscope'
     Plug 'ncm2/ncm2-match-highlight'
+    Plug 'filipekiss/ncm2-look.vim'
+    
     if executable('cargo')
         Plug 'ncm2/ncm2-racer'
     endif
-    Plug 'ncm2/ncm2-vim'
+    Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
     Plug 'Shougo/echodoc.vim'
 
     autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -514,64 +516,61 @@ let g:tex_flavor = "latex"
 if exists('ncm2#enable_for_buffer')
     set completeopt=noinsert,menuone,noselect
 
-    augroup my_cm_setup
-    autocmd!
-    autocmd BufEnter * call ncm2#enable_for_buffer()
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-cmds',
-            \ 'priority': 8,
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'prefix', 'key': 'word'},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-labels',
-            \ 'priority': 8,
-            \ 'complete_length': -1:
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'substr', 'key': 'word'},
-            \               {'name': 'substr', 'key': 'menu'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-files',
-            \ 'priority': 8,
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'abbrfuzzy', 'key': 'word'},
-            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#files,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'bibtex',
-            \ 'priority': 8,
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'prefix', 'key': 'word'},
-            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-            \               {'name': 'abbrfuzzy', 'key': 'menu'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    augroup END
 endif
+au InsertEnter * call ncm2#enable_for_buffer()
+au Filetype tex call ncm2#register_source({
+	\ 'name' : 'vimtex-cmds',
+	\ 'priority': 8, 
+	\ 'complete_length': -1,
+	\ 'scope': ['tex'],
+	\ 'matcher': {'name': 'prefix', 'key': 'word'},
+	\ 'word_pattern': '\w+',
+	\ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+	\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+	\ })
+au Filetype tex call ncm2#register_source({
+	\ 'name' : 'vimtex-labels',
+	\ 'priority': 8, 
+	\ 'complete_length': -1,
+	\ 'scope': ['tex'],
+	\ 'matcher': {'name': 'combine',
+	\             'matchers': [
+	\               {'name': 'substr', 'key': 'word'},
+	\               {'name': 'substr', 'key': 'menu'},
+	\             ]},
+	\ 'word_pattern': '\w+',
+	\ 'complete_pattern': g:vimtex#re#ncm2#labels,
+	\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+	\ })
+au Filetype tex call ncm2#register_source({
+	\ 'name' : 'vimtex-files',
+	\ 'priority': 8, 
+	\ 'complete_length': -1,
+	\ 'scope': ['tex'],
+	\ 'matcher': {'name': 'combine',
+	\             'matchers': [
+	\               {'name': 'abbrfuzzy', 'key': 'word'},
+	\               {'name': 'abbrfuzzy', 'key': 'abbr'},
+	\             ]},
+	\ 'word_pattern': '\w+',
+	\ 'complete_pattern': g:vimtex#re#ncm2#files,
+	\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+	\ })
+au Filetype tex call ncm2#register_source({
+	\ 'name' : 'bibtex',
+	\ 'priority': 8, 
+	\ 'complete_length': -1,
+	\ 'scope': ['tex'],
+	\ 'matcher': {'name': 'combine',
+	\             'matchers': [
+	\               {'name': 'prefix', 'key': 'word'},
+	\               {'name': 'abbrfuzzy', 'key': 'abbr'},
+	\               {'name': 'abbrfuzzy', 'key': 'menu'},
+	\             ]},
+	\ 'word_pattern': '\w+',
+	\ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+	\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+	\ })
 
 " rustfmt
 " Set autocompile on autosave
@@ -580,14 +579,15 @@ let g:rustfmt_autosave = 1
 map <leader>b :! cargo build --tests<CR>
 map <leader>br :! cargo build --release<CR>
 
-
+" Python
+autocmd Filetype python nnoremap <buffer> <A-x> <Esc>:w<CR>:!python3 %<CR>
 
 """"
 " Ultisnips
 " let g:UltiSnipsSnippetDirectories=['UltiSnips',$HOME.'/.UltiSnips']
 " Add home directory to runtimepath
-let &runtimepath.=','.$HOME
-let g:UltiSnipsSnippetsDir='.UltiSnips'
+" let &runtimepath.=','.$HOME
+" let g:UltiSnipsSnippetsDir='.UltiSnips'
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
