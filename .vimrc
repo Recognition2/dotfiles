@@ -239,9 +239,9 @@ set autoindent smartindent
 set smarttab
 
 " Integrate with system clipboard (not on macOS due to problems)
-if has('unix') && !has('mac')
-    set clipboard=unnamedplus,unnamed
-endif
+" if has('unix') && !has('mac')
+"     set clipboard=unnamedplus,unnamed
+" endif
 
 
 

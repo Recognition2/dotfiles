@@ -1,33 +1,33 @@
 snippet gls "Glossary entry" w
-\gls{${1}} ${0}
+\gls{${1}}${0}
 endsnippet
 
 snippet glspl "Glossary plural" w
-\glspl{${1}} ${0}
+\glspl{${1}}${0}
 endsnippet
 
 snippet Gls "Glossary entry" w
-\Gls{${1}} ${0}
+\Gls{${1}}${0}
 endsnippet
 
 snippet Glspl "Glossary plural" w
-\Glspl{${1}} ${0}
+\Glspl{${1}}${0}
 endsnippet
 
 snippet todo "Add todo annotation" w
-\todo${1:[${2:inline,color=${3:orange}}]}{${4}} ${0}
+\todo${1:[${2:inline,color=${3:orange}}]}{${4}}${0}
 endsnippet
 
 snippet input "Input another file, c-style" w
-\input{${1}} ${0}
+\input{${1}}${0}
 endsnippet
 
 snippet include "Include another file, does clear-page before/after, uses different aux file" w
-\include{${1}} ${0}
+\include{${1}}${0}
 endsnippet
 
 snippet num "Input number" w
-\num{${1}} ${0}
+\num{${1}}${0}
 endsnippet
 
 snippet gloss "Add new entry to glossary" w
@@ -40,9 +40,37 @@ ${0}
 endsnippet
 
 snippet acr "Add entry to acronyms table" w
-\newacronym{${1}}{${2}}{${3}}
+\newacronym{${1}}{${2}}{${3}}${0}
 endsnippet
 
 snippet cref "Insert reference" w
-\cref{${1}} ${0}
+\cref{${1}}${0}
+endsnippet
+
+
+snippet text "Include text in math environments" i
+\text{${1}}${0}
+endsnippet
+
+snippet sigma "Sigma" i
+\sigma${0}
+endsnippet
+
+snippet phi "Phi" i
+\phi${0}
+endsnippet
+
+snippet exp "Expected value" w
+\text{E} \left[ ${1} \right]${0}
+endsnippet
+snippet var "Variance" w
+\text{Var} \left[ ${1} \right]${0}
+endsnippet
+
+snippet spad "Autocomplete spad" w
+\gls{a:spad}
+endsnippet
+
+snippet lr( "Auto fix left/right" w
+\left( ${1} \right)${0}
 endsnippet
