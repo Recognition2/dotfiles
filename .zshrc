@@ -360,7 +360,7 @@ $HOME/.cabal/bin:\
 $HOME/.npm-global/bin:\
 $HOME/intelFPGA_lite/18.0/quartus/bin:\
 $HOME/esp/xtensa-esp32-elf/bin:\
-/opt/xilinx/Vivado/2018.2/bin:\
+/opt/vivado/Vivado/2019.1/bin:\
 $PATH"
 
 if [[ -n $(command -v nvim) ]]; then 
@@ -373,7 +373,7 @@ fi
 
 # LEGACY: May be redundant.
 export MOZILLA_FIVE_HOME=/usr/lib/mozilla
-export LD_LIBRARY_PATH=${MOZILLA_FIVE_HOME}:${LD_LIBRARY_PATH}
+# export LD_LIBRARY_PATH=${MOZILLA_FIVE_HOME}:${LD_LIBRARY_PATH}
 
 # License file for Xilinx proprietary toolchain
 export XILINXD_LICENSE_FILE=$HOME/Downloads/Xilinx.lic
@@ -386,6 +386,10 @@ export SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
 
 # RUSTFLAGS
 export RUSTFLAGS='-C target-cpu=native'
+
+# Python rc file
+export PYTHONSTARTUP="$HOME/.config/pyrc.py"
+
 
 ############################
 ## Aliases ##
@@ -401,7 +405,7 @@ BATCAPFILE='/sys/class/power_supply/BAT0/capacity'
 
 [[ -n $(command -v firefox-nightly) ]] && alias firefox='firefox-nightly'
 
-alias ptop='sudo powertop' # Needs sudo rights
+[[ -n $(command -v powertop) ]] && alias ptop='sudo powertop' # Needs sudo rights
 alias wttr="weather"
 
 # CPU frequency, only work on ZBook (I hope)
@@ -439,7 +443,14 @@ if [[ -n $(command -v cargo) ]]; then
 fi
 
 # gheghe
-if [[ -n $(command -v python3) ]]; then
-    alias pieton='/usr/bin/env python3'
-fi
+[[ -n $(command -v python3) ]] && alias pieton='/usr/bin/env python3'
+[[ -n $(command -v python3) ]] && alias py='python3'
+[[ -n $(command -v python2) ]] && alias py2='python2'
 
+if [[ -n $(command -v intel-virtual-output) ]]; then
+    function sii() {
+        systemctl suspend
+        intel-virtual-output
+        intel-virtual-output
+    }
+fi

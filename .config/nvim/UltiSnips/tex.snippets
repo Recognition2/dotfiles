@@ -74,3 +74,33 @@ endsnippet
 snippet lr( "Auto fix left/right" w
 \left( ${1} \right)${0}
 endsnippet
+
+snippet nom "Nomenclature entry" b
+\nomenclature{$${1:symbol}$}{${2:explanation}}%
+${0}
+endsnippet
+
+snippet $ "Expand math mode" A
+$${1}$${0}
+endsnippet
+
+snippet \[ "Expand formula" A
+
+\[
+	${1}
+\]
+${0}
+endsnippet
+
+
+snippet subfloat "Create figure with subfloats" w
+\begin{figure}[${1:ht!}]
+	\centering
+	\subfloat[${2:Caption 1}\label{fig:${3:label-1}}]{{\includegraphics[width=${4:.45}\linewidth]{fig/${5}}}}
+	\qquad
+	\subfloat[${6:Caption 2}\label{fig:${7:label-2}}]{{\includegraphics[width=${8:.45}\linewidth]{fig/${9}}}}
+	\caption{${9:Total Caption}}%
+	\label{${10:label-total}}
+\end{figure}
+${0}
+endsnippet

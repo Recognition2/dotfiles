@@ -5,6 +5,9 @@ set window-title-page true
 
 set guioptions "svh"
 
+set zoom-max 10000
+set zoom-min 60
+set zoom-step 10
 
 set synctex true
 set synctex-editor-command "nvim +%{line} %{input}
