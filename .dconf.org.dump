@@ -1,8 +1,11 @@
 [blueman/general]
-window-properties=[500, 350, 1096, 339]
+window-properties=[568, 350, 1240, 278]
+
+[blueman/plugins/powermanager]
+auto-power-on=@mb true
 
 [blueman/plugins/recentconns]
-recent-connections='eNprYPJmiC1kaCtk1AMAEQ4Cwg=='
+recent-connections=[{'adapter': '74:70:FD:AB:18:5E', 'address': '44:18:FD:BA:6D:F1', 'alias': 'Alice’s Beats Studio³', 'icon': 'audio-card', 'name': 'Auto connect profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1570805156.6105907', 'device': '', 'mitem': ''}]
 
 [blueman/transfer]
 shared-path=''
@@ -94,9 +97,15 @@ toolkit-accessibility=true
 custom-list=@as []
 
 [cinnamon/desktop/keybindings/media-keys]
+pause=['XF86AudioPause', 'AudioPause', 'AudioNext']
 screen-brightness-down=['XF86MonBrightnessDown']
 touchpad-toggle=['XF86TouchpadToggle', '<Alt>Super_L']
 volume-down=['XF86AudioLowerVolume']
+
+[cinnamon/desktop/media-handling]
+autorun-x-content-ignore=@as []
+autorun-x-content-open-folder=@as []
+autorun-x-content-start-app=['x-content/unix-software']
 
 [cinnamon/desktop/notifications]
 display-notifications=false
@@ -180,10 +189,76 @@ subtitle-encoding='UTF-8'
 window-size=(960, 600)
 window-state=87168
 
+[gnome/brasero/drives/drive-2724953198/disc-2]
+flags=64
+
+[gnome/brasero/plugins/audio2cue]
+priority=0
+
+[gnome/brasero/plugins/burn-uri]
+priority=0
+
+[gnome/brasero/plugins/cdda2wav]
+priority=0
+
+[gnome/brasero/plugins/cdrdao]
+priority=0
+
+[gnome/brasero/plugins/cdrecord]
+priority=0
+
+[gnome/brasero/plugins/dvd-rw-format]
+priority=0
+
+[gnome/brasero/plugins/dvdauthor]
+priority=0
+
+[gnome/brasero/plugins/dvdcss]
+priority=0
+
+[gnome/brasero/plugins/file-checksum]
+priority=0
+
+[gnome/brasero/plugins/file-downloader]
+priority=0
+
+[gnome/brasero/plugins/genisoimage]
+priority=0
+
+[gnome/brasero/plugins/growisofs]
+priority=0
+
+[gnome/brasero/plugins/image-checksum]
+priority=0
+
+[gnome/brasero/plugins/mkisofs]
+priority=0
+
+[gnome/brasero/plugins/normalize]
+priority=0
+
+[gnome/brasero/plugins/readcd]
+priority=0
+
+[gnome/brasero/plugins/readom]
+priority=0
+
+[gnome/brasero/plugins/transcode]
+priority=0
+
+[gnome/brasero/plugins/transcode2vob]
+priority=0
+
+[gnome/brasero/plugins/vcdimager]
+priority=0
+
+[gnome/brasero/plugins/wodim]
+priority=0
+
 [gnome/builder]
 window-maximized=false
 window-position=(2036, 308)
-window-size=(697, 720)
+window-size=(1280, 720)
 
 [gnome/builder/editor/language/automake]
 insert-spaces-instead-of-tabs=false
@@ -434,7 +509,7 @@ show-sidebar=false
 sidebar-page='thumbnails'
 sidebar-size=182
 sizing-mode='automatic'
-window-ratio=(1.6126864668727319, 1.1973060613619357)
+window-ratio=(1.4478316905763755, 0.89053310345849124)
 zoom=1.1999999999999997
 
 [gnome/evolution-data-server]
@@ -442,7 +517,7 @@ migrated=true
 network-monitor-gio-name=''
 
 [gnome/evolution]
-version='3.32.4'
+version='3.34.0'
 
 [gnome/evolution/addressbook]
 completion-minimum-query-length=3
@@ -470,7 +545,7 @@ search-gravatar-for-photo=false
 
 [gnome/evolution/mail/composer-window]
 height=500
-maximized=false
+maximized=true
 width=600
 
 [gnome/evolution/shell]
@@ -498,7 +573,7 @@ active-plugins=['spell', 'time', 'modelines', 'filebrowser', 'docinfo']
 [gnome/gedit/plugins/filebrowser]
 root='file:///'
 tree-view=true
-virtual-root='file:///home/gregory/Documents/Gregorius/Uni/CE/Thesis/Simulation%20Analysis/poisson-verified-simulator/results_new/77'
+virtual-root='file:///home/gregory/Documents/Gregorius/Uni/CE/Thesis/iscas-paper/fig'
 
 [gnome/gedit/preferences/editor]
 auto-indent=false
@@ -522,16 +597,16 @@ search-for-entry=['/home/gregory/Documents/Gregorius/Uni/CE/Thesis/Simulation An
 bottom-panel-size=140
 side-panel-active-page='GeditWindowDocumentsPanel'
 side-panel-size=200
-size=(729, 695)
+size=(702, 616)
 state=87040
 
 [gnome/gnome-system-monitor]
 cpu-colors=[(uint32 0, '#FF6E00'), (1, '#CB0C29'), (2, '#49A835'), (3, '#2D7DB3'), (4, '#f25915e815e8'), (5, '#f25915e815e8'), (6, '#f25915e815e8'), (7, '#f25915e815e8'), (8, '#f25915e815e8'), (9, '#f25915e815e8'), (10, '#f25915e815e8'), (11, '#f25915e815e8')]
-current-tab='processes'
+current-tab='resources'
 maximized=false
 show-dependencies=false
 show-whose-processes='user'
-window-state=(887, 604, 22, 206)
+window-state=(891, 543, 797, 1)
 
 [gnome/gnome-system-monitor/disktreenew]
 col-6-visible=true
@@ -570,8 +645,9 @@ search-filter-time-type='last_modified'
 search-view='list-view'
 
 [gnome/nautilus/window-state]
-initial-size=(717, 507)
+initial-size=(960, 480)
 maximized=false
+sidebar-width=204
 
 [gnome/nm-applet]
 disable-connected-notifications=true
@@ -675,6 +751,42 @@ info-stats-type='discharge-accuracy'
 [gnome/recipes]
 user='gregory'
 
+[gnome/rhythmbox]
+position=(0, 0)
+
+[gnome/rhythmbox/library/source]
+show-browser=true
+sorting=('Track', true)
+
+[gnome/rhythmbox/player]
+play-order='random-by-age-and-rating'
+volume=1.0
+
+[gnome/rhythmbox/plugins]
+active-plugins=['dbus-media-server', 'android', 'power-manager', 'mpris', 'rb', 'artsearch', 'mmkeys', 'notification', 'daap', 'generic-player', 'audiocd', 'iradio', 'audioscrobbler', 'cd-recorder', 'mtpdevice']
+seen-plugins=['dbus-media-server', 'ipod', 'mpris', 'pythonconsole', 'rb', 'artsearch', 'replaygain', 'webremote', 'soundcloud', 'notification', 'daap', 'grilo', 'im-status', 'sendto', 'magnatune', 'audioscrobbler', 'cd-recorder', 'lyrics', 'fmradio', 'rblirc', 'mtpdevice']
+
+[gnome/rhythmbox/plugins/android/source]
+show-browser=true
+
+[gnome/rhythmbox/plugins/audioscrobbler/Last.fm]
+scrobbling-enabled=true
+
+[gnome/rhythmbox/plugins/audioscrobbler/Libre.fm]
+scrobbling-enabled=true
+
+[gnome/rhythmbox/plugins/iradio]
+initial-stations-loaded=true
+
+[gnome/rhythmbox/plugins/iradio/source]
+show-browser=true
+
+[gnome/rhythmbox/podcast/source]
+show-browser=true
+
+[gnome/rhythmbox/rhythmdb]
+locations=['file:///home/gregory/Music']
+
 [gnome/robots]
 window-height=566
 window-is-maximized=false
@@ -688,7 +800,7 @@ hinting='slight'
 favorite-apps=['org.gnome.Epiphany.desktop', 'org.gnome.Evolution.desktop', 'rhythmbox.desktop', 'shotwell.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop']
 
 [gnome/software]
-check-timestamp=int64 1567755910
+check-timestamp=int64 1570956092
 
 [gnome/terminal/legacy]
 schema-version=uint32 3
@@ -707,12 +819,14 @@ date-format='regular'
 location-mode='path-bar'
 show-hidden=false
 show-size-column=true
-sidebar-width=163
-sort-column='modified'
+show-type-column=true
+sidebar-width=159
+sort-column='name'
 sort-directories-first=false
-sort-order='descending'
-window-position=(866, 348)
-window-size=(1052, 570)
+sort-order='ascending'
+type-format='category'
+window-position=(900, 1)
+window-size=(1018, 593)
 
 [nemo/desktop]
 computer-icon-visible=false
