@@ -348,6 +348,9 @@ fi
 # Exports
 ############################
 
+# When using dotnet core, disable telemetry
+export DOTNET_CLI_TELEMETRY_OPTOUT='1'
+
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH="\
