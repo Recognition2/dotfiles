@@ -19,7 +19,7 @@ if executable('git')
     Plug 'airblade/vim-gitgutter'
 endif
 
-" Code snippets
+" Code snippets in ~/.UltiSnips
 Plug 'SirVer/ultisnips' 
 Plug 'honza/vim-snippets'
 
@@ -43,7 +43,9 @@ Plug 'FooSoft/vim-argwrap'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'robertbasic/vim-hugo-helper'
+if executable('hugo')
+    Plug 'robertbasic/vim-hugo-helper'
+endif
 Plug 'mattn/emmet-vim'
 
 " Appearance
@@ -58,7 +60,9 @@ Plug 'RRethy/vim-illuminate'
 
 " File types
 Plug 'maralla/vim-toml-enhance'
-Plug 'lervag/vimtex'
+if executable('tex')
+    Plug 'lervag/vimtex'
+endif
 Plug 'andymass/vim-matchup'
 
 Plug 'tpope/vim-dispatch'
@@ -67,13 +71,11 @@ Plug 'tpope/vim-dispatch'
 Plug 'sheerun/vim-polyglot'
 
 " Languages
-Plug 'rust-lang/rust.vim', {'do': 'rustup component add rls rust-analysis rust-src rustfmt'}
+if executable('rustup')
+    Plug 'rust-lang/rust.vim', {'do': 'rustup component add rls rust-analysis rust-src rustfmt'}
+endif
 if executable('cargo')
     Plug 'racer-rust/vim-racer', {'do': 'cargo +nightly install racer -f'}
-endif
-
-if executable('go')
-    Plug 'fatih/vim-go'
 endif
 
 " Linting/Completion
@@ -89,7 +91,9 @@ if has('nvim')
 
     " Completion enhancements
     Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-tmux'
+    if has('tmux')
+        Plug 'ncm2/ncm2-tmux'
+    endif
     Plug 'ncm2/ncm2-path'
     Plug 'ncm2/ncm2-github'
     Plug 'ncm2/ncm2-ultisnips'
@@ -112,6 +116,8 @@ endif
 " End vim-plug plugin loading
 call plug#end()
 
+" I'm using vimtex not Latex-Box, polyglot loads that by default.
+let g:polyglot_disabled = ['latex']
 
 """ General
 " We're using Vim, not Vi
@@ -136,9 +142,6 @@ set shell=/bin/bash
 " Set maximum map and key delays
 set timeoutlen=500
 set ttimeoutlen=0
-
-" I'm using vimtex not Latex-Box, polyglot loads that by default.
-let g:polyglot_disabled = ['latex']
 
 """ Appearance
 " Syntax highlighting
