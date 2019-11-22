@@ -1,4 +1,3 @@
-     
 $compiling_cmd = 'makeglossaries %R';
 add_cus_dep( 'nlo', 'nls', 0, 'makenlo2nls' );
 sub makenlo2nls {

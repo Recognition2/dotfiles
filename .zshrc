@@ -392,6 +392,7 @@ export RUSTFLAGS='-C target-cpu=native'
 
 # Python rc file
 export PYTHONSTARTUP="$HOME/.config/pyrc.py"
+export PYTHONPYCACHEPREFIX="$HOME/.pycache/"
 
 
 ############################
