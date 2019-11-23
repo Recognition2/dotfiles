@@ -382,18 +382,23 @@ export MOZILLA_FIVE_HOME=/usr/lib/mozilla
 export XILINXD_LICENSE_FILE=$HOME/Downloads/Xilinx.lic
 
 # ESP IDF development toolchain
-export IDF_PATH=$HOME/esp/esp-idf
+_ZSH_IDF_PATH=$HOME/esp/esp-idf
+[[ -d $_ZSH_IDF_PATH ]] && export IDF_PATH=$_ZSH_IDF_PATH
 
 # ssh key
-export SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
+_ZSH_SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
+[[ -f _ZSH_SSH_KEY_PATH ]] && export SSH_KEY_PATH=_ZSH_SSH_KEY_PATH
 
 # RUSTFLAGS
 export RUSTFLAGS='-C target-cpu=native'
 
 # Python rc file
-export PYTHONSTARTUP="$HOME/.config/pyrc.py"
-export PYTHONPYCACHEPREFIX="$HOME/.pycache/"
+_ZSH_PYTHONSTARTUP="$HOME/.config/pyrc.py"
+[[ -f $_ZSH_PYTHONSTARTUP ]] && export PYTHONSTARTUP=$_ZSH_PYTHONSTARTUP
 
+_ZSH_PYTHONPYCACHEPREFIX="$HOME/.pycache/"
+export PYTHONPYCACHEPREFIX=$_ZSH_PYTHONPYCACHEPREFIX
+[[ -d $_ZSH_PYTHONPYCACHEPREFIX ]] || mkdir $_ZSH_PYTHONPYCACHEPREFIX -p
 
 ############################
 ## Aliases ##
