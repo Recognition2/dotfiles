@@ -21,3 +21,4 @@
 [alias]
     commit = commit -S
     d = difftool
+	pa = "!for r in $(git remote); do git push $r ; done"

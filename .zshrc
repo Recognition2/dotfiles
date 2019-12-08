@@ -279,11 +279,11 @@ upgrade() {
 
     if [[ -n $(command -v nvim) ]]; then
         echo 'Updating vim Plug plugin and Plugged packages'
-        nvim +PlugUpgrade +qa! 
+        nvim +PlugInstall +PlugUpgrade +qa! 
         nvim +PlugUpdate +qa! 
     elif [[ -n $(command -v vim) ]]; then
         echo 'Updating vim Plug plugin and Plugged packages'
-        vim +PlugUpgrade +qa! 
+        vim +PlugInstall +PlugUpgrade +qa! 
         vim +PlugUpdate +qa! 
     fi
 
@@ -323,10 +323,21 @@ upgrade() {
         cargo install-update -a 
     fi
 
-    if [[ -n $(command -v aurget) ]]; then
-        echo 'Upgrading foreign system packages'
-        aurget -Syu firefox-nightly
+    # if [[ -n $(command -v aurget) ]]; then
+    #     echo 'Upgrading foreign system packages'
+    #     aurget -Syu firefox-nightly
+    # fi
+
+    UPDATE_AURTO='/usr/lib/aurto/update-aurto'
+    if [[ -n $UPDATE_AURTO ]]; then
+        echo 'Upgrading aur packages'
+        $UPDATE_AURTO
+        sudo pacman -Syu
     fi
+}
+
+update_aurto () {
+    /usr/lib/aurto/update-aurto
 }
 
 
