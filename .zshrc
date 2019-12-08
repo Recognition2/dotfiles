@@ -261,6 +261,25 @@ dotfiles_setup() {
 
     # Setup Plug and install plugins
     nvim +PlugInstall +PlugUpdate +qa!
+
+    # Installing aurto
+    echo "Installing aurto"
+    mkdir -p /tmp/aurutils /tmp/aurto
+    ( 
+        cd /tmp/aurutils
+        curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/aurutils.tar.gz | tar xz
+        cd aurutils
+        gpg --recv-keys DBE7D3DD8C81D58D0A13D0E76BC26A17B9B7018A
+        makepkg -srci
+    )
+    (
+        cd /tmp/aurto
+        curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/aurto.tar.gz | tar xz
+        cd aurto
+        makepkg -srci
+    )
+    aurto add aurto
+    systemctl disable --now update-aurto.timer update-aurto-startup.timer
 }
 
 
